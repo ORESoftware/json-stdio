@@ -36,7 +36,27 @@ exports.initLogToStdout = function (marker) {
         }
     };
 };
+exports.initLogToStderr = function (marker) {
+    assert(marker && typeof marker === 'string', "first argument to " + exports.initLogToStderr.name + " must be a string.");
+    return function logToStderr(obj) {
+        try {
+            obj[exports.stdMarker] = true;
+        }
+        catch (err) {
+            console.error("json-2-stdout could not add \"" + exports.stdMarker + "\" property to the following value (next line)\n:" + util.inspect(obj) + "\n");
+            throw err;
+        }
+        try {
+            console.error(customStringify(obj));
+        }
+        catch (err) {
+            console.error("json-2-stdout could not stringify the following value (next line)\n:" + util.inspect(obj) + "\n");
+            throw err;
+        }
+    };
+};
 exports.logToStdout = exports.initLogToStdout(exports.stdMarker);
+exports.logToStderr = exports.initLogToStderr(exports.stdMarker);
 exports.createParser = function (marker, eventName) {
     marker = marker || exports.stdMarker;
     eventName = eventName || exports.stdEventName;
