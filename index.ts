@@ -60,7 +60,34 @@ export const initLogToStdout = function (marker: string){
 
 };
 
+export const initLogToStderr = function (marker: string){
+
+  assert(marker && typeof marker === 'string', `first argument to ${initLogToStderr.name} must be a string.`);
+
+  return function logToStderr(obj: IStringifyiableObject){
+
+    try{
+      obj[stdMarker] = true;
+    }
+    catch(err){
+      console.error(`json-2-stdout could not add "${stdMarker}" property to the following value (next line)\n:${util.inspect(obj)}\n`);
+      throw err;
+    }
+
+    try{
+      console.error(customStringify(obj));
+    }
+    catch(err){
+      console.error(`json-2-stdout could not stringify the following value (next line)\n:${util.inspect(obj)}\n`);
+      throw err;
+    }
+
+  };
+
+};
+
 export const logToStdout = initLogToStdout(stdMarker);
+export const logToStderr = initLogToStderr(stdMarker);
 
 
 export const createParser =  function (marker?: string, eventName?: string) {
