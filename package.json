@@ -1,6 +1,6 @@
 {
   "name": "json-2-stdout",
-  "version": "0.0.1001",
+  "version": "0.0.1002",
   "description": "Write JSON to stdout, encoded for parsing by other processes",
   "main": "index.js",
   "scripts": {
