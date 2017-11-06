@@ -29,8 +29,8 @@ const customStringify = function (v: any) {
 };
 
 
-const stdMarker = '@stdout-2-json';
-const stdEventName = '@stdout-2-json-object';
+export const stdMarker = '@stdout-2-json';
+export const stdEventName = '@stdout-2-json-object';
 
 ////////////////////////////////////////////////////////////////////
 
@@ -44,7 +44,7 @@ export const initLogToStdout = function (marker: string){
       obj[stdMarker] = true;
     }
     catch(err){
-      console.error(`json-2-stdout could not add "${stdMarker}" property to the following value (next line)\n: ${util.inspect(obj)}`);
+      console.error(`json-2-stdout could not add "${stdMarker}" property to the following value (next line)\n:${util.inspect(obj)}\n`);
       throw err;
     }
 
@@ -52,7 +52,7 @@ export const initLogToStdout = function (marker: string){
       console.log(customStringify(obj));
     }
     catch(err){
-      console.error(`json-2-stdout could not stringify the following value (next line)\n: ${util.inspect(obj)}`);
+      console.error(`json-2-stdout could not stringify the following value (next line)\n:${util.inspect(obj)}\n`);
       throw err;
     }
 

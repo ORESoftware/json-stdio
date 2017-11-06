@@ -15,31 +15,31 @@ var customStringify = function (v) {
         return value;
     });
 };
-var stdMarker = '@stdout-2-json';
-var stdEventName = '@stdout-2-json-object';
+exports.stdMarker = '@stdout-2-json';
+exports.stdEventName = '@stdout-2-json-object';
 exports.initLogToStdout = function (marker) {
     assert(marker && typeof marker === 'string', "first argument to " + exports.initLogToStdout.name + " must be a string.");
     return function logToStdout(obj) {
         try {
-            obj[stdMarker] = true;
+            obj[exports.stdMarker] = true;
         }
         catch (err) {
-            console.error("json-2-stdout could not add \"" + stdMarker + "\" property to the following value (next line)\n: " + util.inspect(obj));
+            console.error("json-2-stdout could not add \"" + exports.stdMarker + "\" property to the following value (next line)\n:" + util.inspect(obj) + "\n");
             throw err;
         }
         try {
             console.log(customStringify(obj));
         }
         catch (err) {
-            console.error("json-2-stdout could not stringify the following value (next line)\n: " + util.inspect(obj));
+            console.error("json-2-stdout could not stringify the following value (next line)\n:" + util.inspect(obj) + "\n");
             throw err;
         }
     };
 };
-exports.logToStdout = exports.initLogToStdout(stdMarker);
+exports.logToStdout = exports.initLogToStdout(exports.stdMarker);
 exports.createParser = function (marker, eventName) {
-    marker = marker || stdMarker;
-    eventName = eventName || stdEventName;
+    marker = marker || exports.stdMarker;
+    eventName = eventName || exports.stdEventName;
     var lastLineData = '';
     var strm = new stream.Transform({
         objectMode: true,
