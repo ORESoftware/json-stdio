@@ -29,8 +29,8 @@ const customStringify = function (v: any) {
 };
 
 
-export const stdMarker = '@stdout-2-json';
-export const stdEventName = '@stdout-2-json-object';
+export const stdMarker = '@json-stdio';
+export const stdEventName = '@json-stdio-event';
 
 ////////////////////////////////////////////////////////////////////
 

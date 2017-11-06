@@ -15,8 +15,8 @@ var customStringify = function (v) {
         return value;
     });
 };
-exports.stdMarker = '@stdout-2-json';
-exports.stdEventName = '@stdout-2-json-object';
+exports.stdMarker = '@json-stdio';
+exports.stdEventName = '@json-stdio-event';
 exports.initLogToStdout = function (marker) {
     assert(marker && typeof marker === 'string', "first argument to " + exports.initLogToStdout.name + " must be a string.");
     return function logToStdout(obj) {
@@ -24,14 +24,14 @@ exports.initLogToStdout = function (marker) {
             obj[exports.stdMarker] = true;
         }
         catch (err) {
-            console.error("json-2-stdout could not add \"" + exports.stdMarker + "\" property to the following value (next line)\n:" + util.inspect(obj) + "\n");
+            console.error("json-stdio could not add \"" + exports.stdMarker + "\" property to the following value (next line)\n:" + util.inspect(obj) + "\n");
             throw err;
         }
         try {
             console.log(customStringify(obj));
         }
         catch (err) {
-            console.error("json-2-stdout could not stringify the following value (next line)\n:" + util.inspect(obj) + "\n");
+            console.error("json-stdio could not stringify the following value (next line)\n:" + util.inspect(obj) + "\n");
             throw err;
         }
     };
@@ -43,14 +43,14 @@ exports.initLogToStderr = function (marker) {
             obj[exports.stdMarker] = true;
         }
         catch (err) {
-            console.error("json-2-stdout could not add \"" + exports.stdMarker + "\" property to the following value (next line)\n:" + util.inspect(obj) + "\n");
+            console.error("json-stdio could not add \"" + exports.stdMarker + "\" property to the following value (next line)\n:" + util.inspect(obj) + "\n");
             throw err;
         }
         try {
             console.error(customStringify(obj));
         }
         catch (err) {
-            console.error("json-2-stdout could not stringify the following value (next line)\n:" + util.inspect(obj) + "\n");
+            console.error("json-stdio could not stringify the following value (next line)\n:" + util.inspect(obj) + "\n");
             throw err;
         }
     };
