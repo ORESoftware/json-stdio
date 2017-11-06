@@ -9,6 +9,7 @@ scripts
 ### files
 package-lock.json
 yarn.lock
+.editorconfig
 
 ### matching
 *.DS_Store
@@ -18,6 +19,7 @@ yarn.lock
 *.yml
 *.txt
 *.sh
+*.ts
 
 ### negation
 !.d.ts
