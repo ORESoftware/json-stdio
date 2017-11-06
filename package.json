@@ -1,0 +1,31 @@
+{
+  "name": "json-2-stdout",
+  "version": "0.0.1001",
+  "description": "Write JSON to stdout, encoded for parsing by other processes",
+  "main": "index.js",
+  "scripts": {
+    "test": "suman"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ORESoftware/json-2-stdout.git"
+  },
+  "keywords": [
+    "json",
+    "stdout",
+    "unix",
+    "text",
+    "nodejs",
+    "npm"
+  ],
+  "author": "Olegzandr VD",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ORESoftware/json-2-stdout/issues"
+  },
+  "homepage": "https://github.com/ORESoftware/json-2-stdout#readme",
+  "devDependencies": {
+    "@types/core-js": "^0.9.43",
+    "@types/node": "^8.0.47"
+  }
+}
