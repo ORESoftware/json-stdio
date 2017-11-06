@@ -2,16 +2,18 @@
 
 import * as stream from 'stream';
 import * as assert from 'assert';
+import * as util from 'util';
 
 ///////////////////////////////////////////////
 
+export type IStringifyiableObject = IParsedObject;
 export interface IParsedObject {
   [index: string]: any
 }
 
 //////////////////////////////////////////////////
 
-export const customStringify = function (v: any) {
+const customStringify = function (v: any) {
   let cache: Array<any> = [];
   return JSON.stringify(v, function (key, value) {
     if (typeof value === 'object' && value !== null) {
@@ -28,29 +30,43 @@ export const customStringify = function (v: any) {
 
 
 const stdMarker = '@stdout-2-json';
+const stdEventName = '@stdout-2-json-object';
 
-export const logToStdout = function(obj: Object){
-
-  obj[stdMarker] = true;
-  console.log(customStringify(obj));
-
-};
-
+////////////////////////////////////////////////////////////////////
 
 export const initLogToStdout = function (marker: string){
 
   assert(marker && typeof marker === 'string', `first argument to ${initLogToStdout.name} must be a string.`);
 
-  return function logToStdout(obj: Object){
-    obj[marker] = true;
-    console.log(customStringify(obj));
+  return function logToStdout(obj: IStringifyiableObject){
+
+    try{
+      obj[stdMarker] = true;
+    }
+    catch(err){
+      console.error(`json-2-stdout could not add "${stdMarker}" property to the following value (next line)\n: ${util.inspect(obj)}`);
+      throw err;
+    }
+
+    try{
+      console.log(customStringify(obj));
+    }
+    catch(err){
+      console.error(`json-2-stdout could not stringify the following value (next line)\n: ${util.inspect(obj)}`);
+      throw err;
+    }
+
   };
+
 };
 
+export const logToStdout = initLogToStdout(stdMarker);
 
-export const createParser =  function (marker: string) {
+
+export const createParser =  function (marker?: string, eventName?: string) {
 
   marker = marker || stdMarker;
+  eventName = eventName || stdEventName;
 
   let lastLineData = '';
 
@@ -97,8 +113,8 @@ export const createParser =  function (marker: string) {
   });
 
   strm.on('data', function (d: IParsedObject) {
-    if (d && d[stdMarker] === true) {
-      strm.emit('testpoint', d);
+    if (d && d[marker] === true) {
+      strm.emit(eventName, d);
     }
   });
 
