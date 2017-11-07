@@ -36,7 +36,7 @@ export const stdEventName = '@json-stdio-event';
 
 export const initLogToStdout = function (marker: string){
 
-  assert(marker && typeof marker === 'string', `first argument to ${initLogToStdout.name} must be a string.`);
+  assert(marker && typeof marker === 'string', `first argument to "${initLogToStdout.name}" must be a string.`);
 
   return function logToStdout(obj: IStringifyiableObject){
 
@@ -62,7 +62,7 @@ export const initLogToStdout = function (marker: string){
 
 export const initLogToStderr = function (marker: string){
 
-  assert(marker && typeof marker === 'string', `first argument to ${initLogToStderr.name} must be a string.`);
+  assert(marker && typeof marker === 'string', `first argument to "${initLogToStderr.name}" must be a string.`);
 
   return function logToStderr(obj: IStringifyiableObject){
 
