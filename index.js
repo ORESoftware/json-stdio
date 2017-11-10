@@ -18,7 +18,7 @@ var customStringify = function (v) {
 exports.stdMarker = '@json-stdio';
 exports.stdEventName = '@json-stdio-event';
 exports.initLogToStdout = function (marker) {
-    assert(marker && typeof marker === 'string', "first argument to " + exports.initLogToStdout.name + " must be a string.");
+    assert(marker && typeof marker === 'string', "first argument to \"" + exports.initLogToStdout.name + "\" must be a string.");
     return function logToStdout(obj) {
         try {
             obj[exports.stdMarker] = true;
@@ -37,7 +37,7 @@ exports.initLogToStdout = function (marker) {
     };
 };
 exports.initLogToStderr = function (marker) {
-    assert(marker && typeof marker === 'string', "first argument to " + exports.initLogToStderr.name + " must be a string.");
+    assert(marker && typeof marker === 'string', "first argument to \"" + exports.initLogToStderr.name + "\" must be a string.");
     return function logToStderr(obj) {
         try {
             obj[exports.stdMarker] = true;
