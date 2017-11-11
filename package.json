@@ -1,17 +1,24 @@
 {
-  "name": "json-stdio",
-  "version": "0.0.1006",
+  "_id": "json-stdio@0.0.1006",
+  "_location": "/json-stdio",
+  "_phantomChildren": {},
+  "_requiredBy": [
+    "#EXISTING"
+  ],
+  "author": {
+    "name": "Olegzandr VD"
+  },
+  "bugs": {
+    "url": "https://github.com/ORESoftware/json-stdio/issues"
+  },
+  "dependencies": {},
   "description": "Write JSON to stdout, encoded for parsing by other processes",
-  "main": "index.js",
-  "typings": "index.d.ts",
-  "types": "index.d.ts",
-  "scripts": {
-    "test": "suman"
+  "devDependencies": {
+    "@types/core-js": "^0.9.43",
+    "@types/node": "^8.0.47"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ORESoftware/json-stdio.git"
-  },
+  "gitHead": "982fbec2a2e1aafa0170ca2721eb590f294ffe11",
+  "homepage": "https://github.com/ORESoftware/json-stdio#readme",
   "keywords": [
     "json",
     "stdout",
@@ -20,14 +27,20 @@
     "nodejs",
     "npm"
   ],
-  "author": "Olegzandr VD",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/ORESoftware/json-stdio/issues"
+  "main": "index.js",
+  "name": "json-stdio",
+  "optionalDependencies": {},
+  "readme": "\n\n# json-stdio\n### This library allows two Node.js processes to easily communicate via stdout/stderr/stdin.\n\n<p>\n\n## Usage\n\n### Writing to stdout:\n\n```javascript\nconst {logToStdout} = require('json-stdio');\n\n// log a file path to stdout\nlogToStdout({filePath});\n\n```\n\n### Parsing a stream\n\n```javascript\nconst {createParser, stdEventName} = require('json-stdio');\nconst cp = require('child_process');\n\nconst k = cp.spawn('bash');\n\nk.stdout.pipe(createParser()).on(stdEventName, function(obj){\n  \n    // obj is an object like so:\n    // {'@stdout-2-json':true, filePath: 'foobar'}\n});\n\n```\n",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ORESoftware/json-stdio.git"
   },
-  "homepage": "https://github.com/ORESoftware/json-stdio#readme",
-  "devDependencies": {
-    "@types/core-js": "^0.9.43",
-    "@types/node": "^8.0.47"
-  }
+  "scripts": {
+    "test": "suman"
+  },
+  "types": "index.d.ts",
+  "typings": "index.d.ts",
+  "version": "0.0.1007"
 }
