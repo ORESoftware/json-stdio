@@ -5,6 +5,7 @@ coverage
 test
 scripts
 .vscode
+.vs_code
 
 ### files
 package-lock.json

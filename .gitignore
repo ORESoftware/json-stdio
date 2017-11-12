@@ -1,3 +1,13 @@
+
+### folders
 node_modules
 .idea
+.vscode
+.vs_code
+
+### files
+package-lock.json
+yarn.lock
+
+### matching
 *.log
