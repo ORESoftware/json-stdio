@@ -21,10 +21,10 @@ exports.initLogToStdout = function (marker) {
     assert(marker && typeof marker === 'string', "first argument to \"" + exports.initLogToStdout.name + "\" must be a string.");
     return function logToStdout(obj) {
         try {
-            obj[exports.stdMarker] = true;
+            obj[marker] = true;
         }
         catch (err) {
-            console.error("json-stdio could not add \"" + exports.stdMarker + "\" property to the following value (next line)\n:" + util.inspect(obj) + "\n");
+            console.error("json-stdio could not add \"" + marker + "\" property to the following value (next line)\n:" + util.inspect(obj) + "\n");
             throw err;
         }
         try {
@@ -40,10 +40,10 @@ exports.initLogToStderr = function (marker) {
     assert(marker && typeof marker === 'string', "first argument to \"" + exports.initLogToStderr.name + "\" must be a string.");
     return function logToStderr(obj) {
         try {
-            obj[exports.stdMarker] = true;
+            obj[marker] = true;
         }
         catch (err) {
-            console.error("json-stdio could not add \"" + exports.stdMarker + "\" property to the following value (next line)\n:" + util.inspect(obj) + "\n");
+            console.error("json-stdio could not add \"" + marker + "\" property to the following value (next line)\n:" + util.inspect(obj) + "\n");
             throw err;
         }
         try {
@@ -60,6 +60,8 @@ exports.logToStderr = exports.initLogToStderr(exports.stdMarker);
 exports.createParser = function (marker, eventName) {
     marker = marker || exports.stdMarker;
     eventName = eventName || exports.stdEventName;
+    console.log('marker: ', marker);
+    console.log('event name:', eventName);
     var lastLineData = '';
     var strm = new stream.Transform({
         objectMode: true,

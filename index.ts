@@ -41,10 +41,10 @@ export const initLogToStdout = function (marker: string){
   return function logToStdout(obj: IStringifyiableObject){
 
     try{
-      obj[stdMarker] = true;
+      obj[marker] = true;
     }
     catch(err){
-      console.error(`json-stdio could not add "${stdMarker}" property to the following value (next line)\n:${util.inspect(obj)}\n`);
+      console.error(`json-stdio could not add "${marker}" property to the following value (next line)\n:${util.inspect(obj)}\n`);
       throw err;
     }
 
@@ -67,10 +67,10 @@ export const initLogToStderr = function (marker: string){
   return function logToStderr(obj: IStringifyiableObject){
 
     try{
-      obj[stdMarker] = true;
+      obj[marker] = true;
     }
     catch(err){
-      console.error(`json-stdio could not add "${stdMarker}" property to the following value (next line)\n:${util.inspect(obj)}\n`);
+      console.error(`json-stdio could not add "${marker}" property to the following value (next line)\n:${util.inspect(obj)}\n`);
       throw err;
     }
 
@@ -94,6 +94,9 @@ export const createParser =  function (marker?: string, eventName?: string) {
 
   marker = marker || stdMarker;
   eventName = eventName || stdEventName;
+
+  console.log('marker: ', marker);
+  console.log('event name:', eventName);
 
   let lastLineData = '';
 
