@@ -95,9 +95,6 @@ export const createParser =  function (marker?: string, eventName?: string) {
   marker = marker || stdMarker;
   eventName = eventName || stdEventName;
 
-  console.log('marker: ', marker);
-  console.log('event name:', eventName);
-
   let lastLineData = '';
 
   const strm = new stream.Transform({

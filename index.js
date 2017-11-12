@@ -60,8 +60,6 @@ exports.logToStderr = exports.initLogToStderr(exports.stdMarker);
 exports.createParser = function (marker, eventName) {
     marker = marker || exports.stdMarker;
     eventName = eventName || exports.stdEventName;
-    console.log('marker: ', marker);
-    console.log('event name:', eventName);
     var lastLineData = '';
     var strm = new stream.Transform({
         objectMode: true,
