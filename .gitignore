@@ -6,8 +6,8 @@ node_modules
 .vs_code
 
 ### files
-package-lock.json
 yarn.lock
 
 ### matching
 *.log
+

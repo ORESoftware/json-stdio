@@ -7,6 +7,7 @@ import * as util from 'util';
 ///////////////////////////////////////////////
 
 export type IStringifyiableObject = IParsedObject;
+
 export interface IParsedObject {
   [index: string]: any
 }
@@ -14,34 +15,33 @@ export interface IParsedObject {
 //////////////////////////////////////////////////
 
 const customStringify = function (v: any) {
-  let cache: Array<any> = [];
+  let cache = new Map<any, true>();
   return JSON.stringify(v, function (key, value) {
     if (typeof value === 'object' && value !== null) {
-      if (cache.indexOf(value) !== -1) {
+      if (cache.get(value) === true) {
         // Circular reference found, discard key
         return;
       }
       // Store value in our collection
-      cache.push(value);
+      cache.set(value, true);
     }
     return value;
   });
 };
-
 
 export const stdMarker = '@json-stdio';
 export const stdEventName = '@json-stdio-event';
 
 ////////////////////////////////////////////////////////////////////
 
-export const getJSON = function(obj: IStringifyiableObject, marker?: string){
+export const getJSON = function (obj: IStringifyiableObject, marker?: string) {
   
   marker = marker || stdMarker;
   
-  try{
+  try {
     obj[marker] = true;
   }
-  catch(err){
+  catch (err) {
     console.error(`json-stdio could not add "${marker}" property to the following value (next line)\n:${util.inspect(obj)}\n`);
     throw err;
   }
@@ -50,68 +50,66 @@ export const getJSON = function(obj: IStringifyiableObject, marker?: string){
   
 };
 
-export const initLogToStdout = function (marker: string){
-
+export const initLogToStdout = function (marker: string) {
+  
   assert(marker && typeof marker === 'string', `first argument to "${initLogToStdout.name}" must be a string.`);
-
-  return function logToStdout(obj: IStringifyiableObject){
+  
+  return function logToStdout(obj: IStringifyiableObject) {
     
-    try{
+    try {
       console.log(getJSON(obj, marker));
     }
-    catch(err){
+    catch (err) {
       console.error(`json-stdio could not stringify the following value (next line)\n:${util.inspect(obj)}\n`);
       throw err;
     }
-
+    
   };
-
+  
 };
 
-
-export const initLogToStderr = function (marker: string){
-
+export const initLogToStderr = function (marker: string) {
+  
   assert(marker && typeof marker === 'string', `first argument to "${initLogToStderr.name}" must be a string.`);
-
-  return function logToStderr(obj: IStringifyiableObject){
+  
+  return function logToStderr(obj: IStringifyiableObject) {
     
-    try{
+    try {
       console.error(getJSON(obj, marker));
     }
-    catch(err){
+    catch (err) {
       console.error(`json-stdio could not stringify the following value (next line)\n:${util.inspect(obj)}\n`);
       throw err;
     }
-
+    
   };
-
+  
 };
 
 export const logToStdout = initLogToStdout(stdMarker);
 export const logToStderr = initLogToStderr(stdMarker);
 
-
-export const createParser =  function (marker?: string, eventName?: string) {
-
+export const createParser = function (marker?: string, eventName?: string) {
+  
   marker = marker || stdMarker;
   eventName = eventName || stdEventName;
-
+  
   let lastLineData = '';
-
+  
   const strm = new stream.Transform({
-
+    
     objectMode: true,
-
+    
     transform(chunk: any, encoding: string, cb: Function) {
-
+      
       let data = String(chunk);
       if (lastLineData) {
         data = lastLineData + data;
       }
-
+      
       let lines = data.split('\n');
       lastLineData = lines.splice(lines.length - 1, 1)[0];
-
+      
       lines.forEach(l => {
         try {
           // l might be an empty string; ignore if so
@@ -121,11 +119,11 @@ export const createParser =  function (marker?: string, eventName?: string) {
           // noop
         }
       });
-
+      
       cb();
-
+      
     },
-
+    
     flush(cb: Function) {
       if (lastLineData) {
         try {
@@ -139,15 +137,15 @@ export const createParser =  function (marker?: string, eventName?: string) {
       cb();
     }
   });
-
+  
   strm.on('data', function (d: IParsedObject) {
     if (d && d[marker] === true) {
       strm.emit(eventName, d);
     }
   });
-
+  
   return strm;
-
+  
 };
 
 

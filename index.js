@@ -4,13 +4,13 @@ var stream = require("stream");
 var assert = require("assert");
 var util = require("util");
 var customStringify = function (v) {
-    var cache = [];
+    var cache = new Map();
     return JSON.stringify(v, function (key, value) {
         if (typeof value === 'object' && value !== null) {
-            if (cache.indexOf(value) !== -1) {
+            if (cache.get(value) === true) {
                 return;
             }
-            cache.push(value);
+            cache.set(value, true);
         }
         return value;
     });
