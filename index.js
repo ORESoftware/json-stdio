@@ -17,18 +17,22 @@ var customStringify = function (v) {
 };
 exports.stdMarker = '@json-stdio';
 exports.stdEventName = '@json-stdio-event';
+exports.getJSON = function (obj, marker) {
+    marker = marker || exports.stdMarker;
+    try {
+        obj[marker] = true;
+    }
+    catch (err) {
+        console.error("json-stdio could not add \"" + marker + "\" property to the following value (next line)\n:" + util.inspect(obj) + "\n");
+        throw err;
+    }
+    return customStringify(obj);
+};
 exports.initLogToStdout = function (marker) {
     assert(marker && typeof marker === 'string', "first argument to \"" + exports.initLogToStdout.name + "\" must be a string.");
     return function logToStdout(obj) {
         try {
-            obj[marker] = true;
-        }
-        catch (err) {
-            console.error("json-stdio could not add \"" + marker + "\" property to the following value (next line)\n:" + util.inspect(obj) + "\n");
-            throw err;
-        }
-        try {
-            console.log(customStringify(obj));
+            console.log(exports.getJSON(obj, marker));
         }
         catch (err) {
             console.error("json-stdio could not stringify the following value (next line)\n:" + util.inspect(obj) + "\n");
@@ -40,14 +44,7 @@ exports.initLogToStderr = function (marker) {
     assert(marker && typeof marker === 'string', "first argument to \"" + exports.initLogToStderr.name + "\" must be a string.");
     return function logToStderr(obj) {
         try {
-            obj[marker] = true;
-        }
-        catch (err) {
-            console.error("json-stdio could not add \"" + marker + "\" property to the following value (next line)\n:" + util.inspect(obj) + "\n");
-            throw err;
-        }
-        try {
-            console.error(customStringify(obj));
+            console.error(exports.getJSON(obj, marker));
         }
         catch (err) {
             console.error("json-stdio could not stringify the following value (next line)\n:" + util.inspect(obj) + "\n");

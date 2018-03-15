@@ -34,22 +34,30 @@ export const stdEventName = '@json-stdio-event';
 
 ////////////////////////////////////////////////////////////////////
 
+export const getJSON = function(obj: IStringifyiableObject, marker?: string){
+  
+  marker = marker || stdMarker;
+  
+  try{
+    obj[marker] = true;
+  }
+  catch(err){
+    console.error(`json-stdio could not add "${marker}" property to the following value (next line)\n:${util.inspect(obj)}\n`);
+    throw err;
+  }
+  
+  return customStringify(obj);
+  
+};
+
 export const initLogToStdout = function (marker: string){
 
   assert(marker && typeof marker === 'string', `first argument to "${initLogToStdout.name}" must be a string.`);
 
   return function logToStdout(obj: IStringifyiableObject){
-
+    
     try{
-      obj[marker] = true;
-    }
-    catch(err){
-      console.error(`json-stdio could not add "${marker}" property to the following value (next line)\n:${util.inspect(obj)}\n`);
-      throw err;
-    }
-
-    try{
-      console.log(customStringify(obj));
+      console.log(getJSON(obj, marker));
     }
     catch(err){
       console.error(`json-stdio could not stringify the following value (next line)\n:${util.inspect(obj)}\n`);
@@ -60,22 +68,15 @@ export const initLogToStdout = function (marker: string){
 
 };
 
+
 export const initLogToStderr = function (marker: string){
 
   assert(marker && typeof marker === 'string', `first argument to "${initLogToStderr.name}" must be a string.`);
 
   return function logToStderr(obj: IStringifyiableObject){
-
+    
     try{
-      obj[marker] = true;
-    }
-    catch(err){
-      console.error(`json-stdio could not add "${marker}" property to the following value (next line)\n:${util.inspect(obj)}\n`);
-      throw err;
-    }
-
-    try{
-      console.error(customStringify(obj));
+      console.error(getJSON(obj, marker));
     }
     catch(err){
       console.error(`json-stdio could not stringify the following value (next line)\n:${util.inspect(obj)}\n`);
