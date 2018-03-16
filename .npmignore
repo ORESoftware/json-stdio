@@ -9,7 +9,6 @@ scripts
 example
 
 ### files
-package-lock.json
 yarn.lock
 .editorconfig
 
@@ -24,7 +23,7 @@ yarn.lock
 *.ts
 
 ### negation
-!.d.ts
+!index.d.ts
 
 
 
