@@ -12,3 +12,7 @@ export declare const initLogToStderr: (marker: string) => (obj: IParsedObject) =
 export declare const logToStdout: (obj: IParsedObject) => void;
 export declare const logToStderr: (obj: IParsedObject) => void;
 export declare const createParser: (marker?: string, eventName?: string) => stream.Transform;
+export interface Object2JSONOpts {
+    marker: string;
+}
+export declare const transformObject2JSON: (opts?: Object2JSONOpts) => stream.Transform;

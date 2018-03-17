@@ -96,3 +96,21 @@ exports.createParser = function (marker, eventName) {
     });
     return strm;
 };
+exports.transformObject2JSON = function (opts) {
+    var marker = opts && opts.marker || exports.stdMarker;
+    return new stream.Transform({
+        objectMode: true,
+        transform: function (chunk, encoding, cb) {
+            try {
+                chunk[marker] = true;
+                this.push(JSON.stringify(chunk) + '\n');
+            }
+            catch (err) {
+            }
+            cb();
+        },
+        flush: function (cb) {
+            cb();
+        }
+    });
+};

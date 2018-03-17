@@ -148,4 +148,36 @@ export const createParser = function (marker?: string, eventName?: string) {
   
 };
 
+export interface Object2JSONOpts {
+  marker: string;
+}
+
+export const transformObject2JSON = function (opts?: Object2JSONOpts) {
+  
+  const marker = opts && opts.marker || stdMarker;
+  
+  return new stream.Transform({
+    
+    objectMode: true,
+    
+    transform(chunk: any, encoding: string, cb: Function) {
+      
+      try {
+        chunk[marker] = true;
+        this.push(JSON.stringify(chunk) + '\n');
+      }
+      catch (err) {
+        /* noop */
+      }
+      
+      cb();
+      
+    },
+    
+    flush(cb: Function) {
+      cb();
+    }
+  });
+  
+};
 
