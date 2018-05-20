@@ -3,11 +3,15 @@
 node_modules
 .idea
 .vscode
-.vs_code
+dist/*
 
 ### files
 yarn.lock
 
 ### matching
 *.log
+*.tgz
+
+### negation
+!dist/README.md
 

@@ -1,29 +1,29 @@
+
+
 ### folders
-node_modules
+.nyc_output
 coverage
 .idea
 test
 scripts
 .vscode
-.vs_code
 example
+src
 
 ### files
 yarn.lock
 .editorconfig
+.npmignore
+.gitignore
+.dockerignore
 
 ### matching
-*.DS_Store
 *.log
 *.md
 *.json
 *.yml
 *.txt
-*.sh
-*.ts
 
-### negation
-!index.d.ts
 
 
 
