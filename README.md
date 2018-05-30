@@ -9,7 +9,7 @@
 
 ## Importing
 
-```
+```js
 import JSONStdio = require('json-stdio');    //   TypeScript
 import * as JSONStdio from 'json-stdio';     //   ESNext / ESWhatever
 const JSONStdio = require('json-stdio');     //   ESNotInsane / ESMoreFun
