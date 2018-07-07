@@ -6,9 +6,9 @@ import * as util from 'util';
 
 ///////////////////////////////////////////////
 
-export type IStringifyiableObject = IParsedObject;
+export type IStringifyiableObject = ParsedObject;
 
-export interface IParsedObject {
+export interface ParsedObject extends Object {
   [index: string]: any
 }
 
@@ -138,7 +138,7 @@ export const createParser = function (marker?: string, eventName?: string) {
     }
   });
   
-  strm.on('data', function (d: IParsedObject) {
+  strm.on('data', function (d: ParsedObject) {
     if (d && d[marker] === true) {
       strm.emit(eventName, d);
     }
