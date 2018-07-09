@@ -6,8 +6,6 @@ import * as util from 'util';
 
 ///////////////////////////////////////////////
 
-export type IStringifyiableObject = ParsedObject;
-
 export interface ParsedObject extends Object {
   [index: string]: any
 }
@@ -34,10 +32,14 @@ export const stdEventName = '@json-stdio-event';
 
 ////////////////////////////////////////////////////////////////////
 
-export const getJSON = function (obj: IStringifyiableObject, marker?: string) {
-  
+export interface AnyIndex extends Object {
+  [key: string]: any
+}
+
+export const getJSON = function (obj: AnyIndex, marker?: string) {
+
   marker = marker || stdMarker;
-  
+
   try {
     obj[marker] = true;
   }
@@ -45,17 +47,34 @@ export const getJSON = function (obj: IStringifyiableObject, marker?: string) {
     console.error(`json-stdio could not add "${marker}" property to the following value (next line)\n:${util.inspect(obj)}\n`);
     throw err;
   }
-  
+
   return customStringify(obj);
-  
+
+};
+
+export type Stringifiable = object | string | boolean | number | null;
+
+export const getJSONCanonical = function (v: Stringifiable, marker?: string) {
+
+  marker = marker || stdMarker;
+
+  if (typeof v === "undefined") {
+    v = null;
+  }
+
+  return customStringify({
+    [marker]: true,
+    value: v
+  });
+
 };
 
 export const initLogToStdout = function (marker: string) {
-  
+
   assert(marker && typeof marker === 'string', `first argument to "${initLogToStdout.name}" must be a string.`);
-  
-  return function logToStdout(obj: IStringifyiableObject) {
-    
+
+  return function logToStdout(obj: any) {
+
     try {
       console.log(getJSON(obj, marker));
     }
@@ -63,17 +82,17 @@ export const initLogToStdout = function (marker: string) {
       console.error(`json-stdio could not stringify the following value (next line)\n:${util.inspect(obj)}\n`);
       throw err;
     }
-    
+
   };
-  
+
 };
 
 export const initLogToStderr = function (marker: string) {
-  
+
   assert(marker && typeof marker === 'string', `first argument to "${initLogToStderr.name}" must be a string.`);
-  
-  return function logToStderr(obj: IStringifyiableObject) {
-    
+
+  return function logToStderr(obj: any) {
+
     try {
       console.error(getJSON(obj, marker));
     }
@@ -81,35 +100,35 @@ export const initLogToStderr = function (marker: string) {
       console.error(`json-stdio could not stringify the following value (next line)\n:${util.inspect(obj)}\n`);
       throw err;
     }
-    
+
   };
-  
+
 };
 
 export const logToStdout = initLogToStdout(stdMarker);
 export const logToStderr = initLogToStderr(stdMarker);
 
 export const createParser = function (marker?: string, eventName?: string) {
-  
+
   marker = marker || stdMarker;
   eventName = eventName || stdEventName;
-  
+
   let lastLineData = '';
-  
+
   const strm = new stream.Transform({
-    
+
     objectMode: true,
-    
+
     transform(chunk: any, encoding: string, cb: Function) {
-      
+
       let data = String(chunk);
       if (lastLineData) {
         data = lastLineData + data;
       }
-      
+
       let lines = data.split('\n');
       lastLineData = lines.splice(lines.length - 1, 1)[0];
-      
+
       lines.forEach(l => {
         try {
           // l might be an empty string; ignore if so
@@ -119,11 +138,11 @@ export const createParser = function (marker?: string, eventName?: string) {
           // noop
         }
       });
-      
+
       cb();
-      
+
     },
-    
+
     flush(cb: Function) {
       if (lastLineData) {
         try {
@@ -137,15 +156,15 @@ export const createParser = function (marker?: string, eventName?: string) {
       cb();
     }
   });
-  
+
   strm.on('data', function (d: ParsedObject) {
     if (d && d[marker] === true) {
       strm.emit(eventName, d);
     }
   });
-  
+
   return strm;
-  
+
 };
 
 export interface Object2JSONOpts {
@@ -153,15 +172,15 @@ export interface Object2JSONOpts {
 }
 
 export const transformObject2JSON = function (opts?: Object2JSONOpts) {
-  
+
   const marker = opts && opts.marker || stdMarker;
-  
+
   return new stream.Transform({
-    
+
     objectMode: true,
-    
+
     transform(chunk: any, encoding: string, cb: Function) {
-      
+
       try {
         chunk[marker] = true;
         this.push(JSON.stringify(chunk) + '\n');
@@ -169,15 +188,15 @@ export const transformObject2JSON = function (opts?: Object2JSONOpts) {
       catch (err) {
         /* noop */
       }
-      
+
       cb();
-      
+
     },
-    
+
     flush(cb: Function) {
       cb();
     }
   });
-  
+
 };
 
