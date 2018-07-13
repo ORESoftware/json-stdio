@@ -43,6 +43,6 @@
   "typings": "dist/index.d.ts",
   "version": "0.1.1003",
   "r2g": {
-    "test": "node .r2g/smoke-test.js"
+    "test": "node .r2g/tests/smoke-test.js"
   }
 }

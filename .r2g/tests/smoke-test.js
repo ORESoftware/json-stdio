@@ -41,18 +41,27 @@ const cp = require('child_process');
 
 const k = cp.spawn('bash');
 k.stderr.pipe(process.stderr);
+k.stdout.pipe(process.stdout);
 
 k.stdin.end(`node ${path.resolve(__dirname + '/../fixtures/child.js')}`);
 
 const parser = stdio.createParser();
 const stdEventName = stdio.stdEventName;  // '@json-stdio-event'
 
-k.stdout.pipe(parser).on(stdEventName, function(obj){
-  assert.deepEqual({fp: '/foo/bar'}, v);
-});
+let count = 0;
 
 k.stdout.pipe(parser).on(stdEventName, function(v){
   assert.deepEqual({fp: '/foo/bar'}, v);
+  if(++count === 2){
+    process.exit(0);
+  }
+});
+
+k.stderr.pipe(parser).on(stdEventName, function(v){
+  assert.deepEqual({fp: '/foo/bar'}, v);
+  if(++count === 2){
+    process.exit(0);
+  }
 });
 
 k.once('exit', code => {
