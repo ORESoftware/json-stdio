@@ -4,6 +4,12 @@ import * as stream from 'stream';
 import * as assert from 'assert';
 import * as util from 'util';
 
+
+export const r2gSmokeTest = function () {
+  return true;
+};
+
+
 ///////////////////////////////////////////////
 
 export interface ParsedObject extends Object {
@@ -76,7 +82,7 @@ export const initLogToStdout = function (marker: string) {
   return function logToStdout(obj: any) {
 
     try {
-      console.log(getJSON(obj, marker));
+      console.log(getJSONCanonical(obj, marker));
     }
     catch (err) {
       console.error(`json-stdio could not stringify the following value (next line)\n:${util.inspect(obj)}\n`);
@@ -94,7 +100,7 @@ export const initLogToStderr = function (marker: string) {
   return function logToStderr(obj: any) {
 
     try {
-      console.error(getJSON(obj, marker));
+      console.error(getJSONCanonical(obj, marker));
     }
     catch (err) {
       console.error(`json-stdio could not stringify the following value (next line)\n:${util.inspect(obj)}\n`);
@@ -107,6 +113,8 @@ export const initLogToStderr = function (marker: string) {
 
 export const logToStdout = initLogToStdout(stdMarker);
 export const logToStderr = initLogToStderr(stdMarker);
+export const log = logToStdout;
+export const logerr = logToStderr;
 
 export const createParser = function (marker?: string, eventName?: string) {
 
@@ -159,7 +167,7 @@ export const createParser = function (marker?: string, eventName?: string) {
 
   strm.on('data', function (d: ParsedObject) {
     if (d && d[marker] === true) {
-      strm.emit(eventName, d);
+      strm.emit(eventName, d.value);
     }
   });
 

@@ -41,5 +41,8 @@
   },
   "types": "dist/index.d.ts",
   "typings": "dist/index.d.ts",
-  "version": "0.0.1017"
+  "version": "0.1.1002",
+  "r2g": {
+    "test": "node .r2g/smoke-test.js"
+  }
 }

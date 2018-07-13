@@ -9,7 +9,7 @@
     "noImplicitAny": true,
     "removeComments": true,
     "allowUnreachableCode": true,
-    "strictNullChecks": true,
+    "strictNullChecks": false,
     "lib": [
       "es2015",
       "es2016",
