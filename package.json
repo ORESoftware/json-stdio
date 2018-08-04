@@ -11,6 +11,10 @@
   "bugs": {
     "url": "https://github.com/ORESoftware/json-stdio/issues"
   },
+  "bin": {
+    "stdio": "cli/stdio.js",
+    "json_stdio": "cli/stdio.js"
+  },
   "dependencies": {},
   "description": "Write JSON to stdout, encoded for parsing by other processes",
   "devDependencies": {
@@ -41,7 +45,7 @@
   },
   "types": "dist/index.d.ts",
   "typings": "dist/index.d.ts",
-  "version": "0.1.1003",
+  "version": "0.1.1004",
   "r2g": {
     "test": "node .r2g/tests/smoke-test.js"
   }
