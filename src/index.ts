@@ -3,12 +3,12 @@
 import * as stream from 'stream';
 import * as assert from 'assert';
 import * as util from 'util';
-
+import {JSONParser} from "@oresoftware/json-stream-parser";
+import * as safe from '@oresoftware/safe-stringify';
 
 export const r2gSmokeTest = function () {
   return true;
 };
-
 
 ///////////////////////////////////////////////
 
@@ -17,21 +17,6 @@ export interface ParsedObject extends Object {
 }
 
 //////////////////////////////////////////////////
-
-const customStringify = function (v: any) {
-  let cache = new Map<any, true>();
-  return JSON.stringify(v, function (key, value) {
-    if (typeof value === 'object' && value !== null) {
-      if (cache.get(value) === true) {
-        // Circular reference found, discard key
-        return;
-      }
-      // Store value in our collection
-      cache.set(value, true);
-    }
-    return value;
-  });
-};
 
 export const stdMarker = '@json-stdio';
 export const stdEventName = '@json-stdio-event';
@@ -42,7 +27,7 @@ export interface AnyIndex extends Object {
   [key: string]: any
 }
 
-export const getJSON = function (obj: AnyIndex, marker?: string) {
+export const getJSON =  (obj: AnyIndex, marker?: string) => {
 
   marker = marker || stdMarker;
 
@@ -54,13 +39,13 @@ export const getJSON = function (obj: AnyIndex, marker?: string) {
     throw err;
   }
 
-  return customStringify(obj);
+  return safe.stringify(obj);
 
 };
 
 export type Stringifiable = object | string | boolean | number | null;
 
-export const getJSONCanonical = function (v: Stringifiable, marker?: string) {
+export const getJSONCanonical =  (v: Stringifiable, marker?: string) => {
 
   marker = marker || stdMarker;
 
@@ -68,7 +53,7 @@ export const getJSONCanonical = function (v: Stringifiable, marker?: string) {
     v = null;
   }
 
-  return customStringify({
+  return safe.stringify({
     [marker]: true,
     value: v
   });
@@ -121,51 +106,9 @@ export const createParser = function (marker?: string, eventName?: string) {
   marker = marker || stdMarker;
   eventName = eventName || stdEventName;
 
-  let lastLineData = '';
+  const strm = new JSONParser();
 
-  const strm = new stream.Transform({
-
-    objectMode: true,
-
-    transform(chunk: any, encoding: string, cb: Function) {
-
-      let data = String(chunk);
-      if (lastLineData) {
-        data = lastLineData + data;
-      }
-
-      let lines = data.split('\n');
-      lastLineData = lines.splice(lines.length - 1, 1)[0];
-
-      lines.forEach(l => {
-        try {
-          // l might be an empty string; ignore if so
-          l && this.push(JSON.parse(l));
-        }
-        catch (err) {
-          // noop
-        }
-      });
-
-      cb();
-
-    },
-
-    flush(cb: Function) {
-      if (lastLineData) {
-        try {
-          this.push(JSON.parse(lastLineData));
-        }
-        catch (err) {
-          // noop
-        }
-      }
-      lastLineData = '';
-      cb();
-    }
-  });
-
-  strm.on('data', function (d: ParsedObject) {
+  strm.on('data',  (d: ParsedObject) => {
     if (d && d[marker] === true) {
       strm.emit(eventName, d.value);
     }
@@ -190,8 +133,7 @@ export const transformObject2JSON = function (opts?: Object2JSONOpts) {
     transform(chunk: any, encoding: string, cb: Function) {
 
       try {
-        chunk[marker] = true;
-        this.push(JSON.stringify(chunk) + '\n');
+        this.push(getJSONCanonical(chunk) + '\n');
       }
       catch (err) {
         /* noop */

@@ -15,7 +15,10 @@
     "stdio": "cli/stdio.js",
     "json_stdio": "cli/stdio.js"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@oresoftware/json-stream-parser": "0.0.1002",
+    "@oresoftware/safe-stringify": "0.0.1001"
+  },
   "description": "Write JSON to stdout, encoded for parsing by other processes",
   "devDependencies": {
     "@types/core-js": "^0.9.46",
@@ -45,7 +48,7 @@
   },
   "types": "dist/index.d.ts",
   "typings": "dist/index.d.ts",
-  "version": "0.1.1005",
+  "version": "0.1.1007",
   "r2g": {
     "test": "node .r2g/tests/smoke-test.js"
   }

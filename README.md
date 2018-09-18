@@ -43,7 +43,7 @@ const k = cp.spawn('bash');
 const parser = stdio.createParser();
 const stdEventName = stdio.stdEventName;  // '@json-stdio-event'
 
-k.stdout.pipe(parser).on(stdEventName, function(obj){
+k.stdout.pipe(parser).on(stdEventName, obj => {
   
     // obj is an object like so:
     // {fp: '/foo/bar'}
