@@ -2,6 +2,12 @@
 
 # json-stdio
 
+<br>
+
+[![Version](https://img.shields.io/npm/v/json-stdio.svg?colorB=green)](https://www.npmjs.com/package/json-stdio)
+
+<br>
+
 >
 > This library allows two Node.js processes to easily communicate via stdout/stderr/stdin.
 >

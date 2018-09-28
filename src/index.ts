@@ -101,7 +101,7 @@ export const logToStderr = initLogToStderr(stdMarker);
 export const log = logToStdout;
 export const logerr = logToStderr;
 
-export const createParser = function (marker?: string, eventName?: string) {
+export const createParser =  (marker?: string, eventName?: string) => {
 
   marker = marker || stdMarker;
   eventName = eventName || stdEventName;
@@ -117,6 +117,7 @@ export const createParser = function (marker?: string, eventName?: string) {
   return strm;
 
 };
+
 
 export interface Object2JSONOpts {
   marker: string;
