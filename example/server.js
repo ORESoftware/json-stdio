@@ -1,5 +1,5 @@
 const cp = require('child_process');
-const JSONStdio = require('json-stdio');
+const stdio = require('json-stdio');
 const path = require('path');
 const http = require('http');
 const child = path.resolve(__dirname + '/child.js');
@@ -7,19 +7,19 @@ const child = path.resolve(__dirname + '/child.js');
 // use curl to POST to server:
 // curl -i -X POST -H 'Content-Type: application/json' -d '["one","two","three","four"]' http://localhost:6969
 
-const s = http.createServer(function (req, res) {
+const s = http.createServer((req, res) => {
 
-  const doTheThing = function (list) {
+  const doTheThing = list => {
 
     const k = cp.spawn('node', [child]);
 
-    list.forEach(function (item) {
-      k.stdin.write(JSONStdio.getJSON({key: item}) + '\n');
+    list.forEach(item => {
+      k.stdin.write(stdio.getJSON({key: item}) + '\n');
     });
 
     k.stdin.end();
 
-    k.stdout.on('data', function (d) {
+    k.stdout.on('data', d => {
       console.log('from child:', String(d));
     });
 

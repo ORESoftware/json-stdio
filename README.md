@@ -2,6 +2,12 @@
 
 # json-stdio
 
+<br>
+
+[![Version](https://img.shields.io/npm/v/json-stdio.svg?colorB=green)](https://www.npmjs.com/package/json-stdio)
+
+<br>
+
 >
 > This library allows two Node.js processes to easily communicate via stdout/stderr/stdin.
 >
@@ -43,7 +49,7 @@ const k = cp.spawn('bash');
 const parser = stdio.createParser();
 const stdEventName = stdio.stdEventName;  // '@json-stdio-event'
 
-k.stdout.pipe(parser).on(stdEventName, function(obj){
+k.stdout.pipe(parser).on(stdEventName, obj => {
   
     // obj is an object like so:
     // {fp: '/foo/bar'}
