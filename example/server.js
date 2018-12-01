@@ -1,5 +1,5 @@
 const cp = require('child_process');
-const JSONStdio = require('json-stdio');
+const stdio = require('json-stdio');
 const path = require('path');
 const http = require('http');
 const child = path.resolve(__dirname + '/child.js');
@@ -14,7 +14,7 @@ const s = http.createServer((req, res) => {
     const k = cp.spawn('node', [child]);
 
     list.forEach(item => {
-      k.stdin.write(JSONStdio.getJSON({key: item}) + '\n');
+      k.stdin.write(stdio.getJSON({key: item}) + '\n');
     });
 
     k.stdin.end();
