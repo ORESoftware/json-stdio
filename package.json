@@ -21,7 +21,6 @@
   },
   "description": "Write JSON to stdout, encoded for parsing by other processes",
   "devDependencies": {
-    "@types/core-js": "^0.9.46",
     "@types/node": "^10.1.2"
   },
   "gitHead": "982fbec2a2e1aafa0170ca2721eb590f294ffe11",
