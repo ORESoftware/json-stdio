@@ -16,12 +16,12 @@
     "json_stdio": "cli/stdio.js"
   },
   "dependencies": {
-    "@oresoftware/json-stream-parser": "latest",
-    "@oresoftware/safe-stringify": "latest"
+    "@oresoftware/json-stream-parser": "0.0.123",
+    "@oresoftware/safe-stringify": "0.0.108"
   },
   "description": "Write JSON to stdout, encoded for parsing by other processes",
   "devDependencies": {
-    "@types/node": "^10.1.2"
+    "@types/node": "^12.7.4"
   },
   "gitHead": "982fbec2a2e1aafa0170ca2721eb590f294ffe11",
   "homepage": "https://github.com/ORESoftware/json-stdio#readme",
@@ -34,20 +34,21 @@
     "npm"
   ],
   "license": "MIT",
-  "main": "dist/index.js",
   "name": "json-stdio",
   "optionalDependencies": {},
-  "readmeFilename": "README.md",
+  "readmeFilename": "readme.md",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ORESoftware/json-stdio.git"
   },
   "scripts": {
-    "test": "suman test"
+    "test": "suman test",
+    "tsc": "tsc"
   },
-  "types": "dist/index.d.ts",
-  "typings": "dist/index.d.ts",
-  "version": "0.1.1009",
+  "main": "dist/main.js",
+  "types": "dist/main.d.ts",
+  "typings": "dist/main.d.ts",
+  "version": "0.1.109",
   "r2g": {
     "test": "node .r2g/tests/smoke-test.js"
   }

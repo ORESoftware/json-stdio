@@ -10,18 +10,15 @@ export const r2gSmokeTest = function () {
   return true;
 };
 
-///////////////////////////////////////////////
 
 export interface ParsedObject extends Object {
   [index: string]: any
 }
 
-//////////////////////////////////////////////////
 
 export const stdMarker = '@json-stdio';
 export const stdEventName = '@json-stdio-event';
 
-////////////////////////////////////////////////////////////////////
 
 export interface AnyIndex extends Object {
   [key: string]: any
