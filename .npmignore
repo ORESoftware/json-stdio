@@ -18,11 +18,13 @@ yarn.lock
 .dockerignore
 
 ### matching
+
 *.log
 *.md
 *.json
 *.yml
 *.txt
+Dockerfile*
 
 
 
