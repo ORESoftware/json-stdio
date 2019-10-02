@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@oresoftware/json-stream-parser": "0.0.123",
-    "@oresoftware/safe-stringify": "0.0.108"
+    "@oresoftware/safe-stringify": "0.0.111"
   },
   "description": "Write JSON to stdout, encoded for parsing by other processes",
   "devDependencies": {
@@ -48,7 +48,7 @@
   "main": "dist/main.js",
   "types": "dist/main.d.ts",
   "typings": "dist/main.d.ts",
-  "version": "0.1.109",
+  "version": "0.1.110",
   "r2g": {
     "test": "node .r2g/tests/smoke-test.js"
   }
