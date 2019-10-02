@@ -23,7 +23,7 @@ yarn.lock
 *.json
 *.yml
 *.txt
-
+*Dockerfile*
 
 
 
