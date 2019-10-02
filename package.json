@@ -48,7 +48,7 @@
   "main": "dist/main.js",
   "types": "dist/main.d.ts",
   "typings": "dist/main.d.ts",
-  "version": "0.1.110",
+  "version": "0.1.111",
   "r2g": {
     "test": "node .r2g/tests/smoke-test.js"
   }
