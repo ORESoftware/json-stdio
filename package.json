@@ -13,7 +13,8 @@
   },
   "bin": {
     "stdio": "cli/stdio.js",
-    "json_stdio": "cli/stdio.js"
+    "json_stdio": "cli/stdio.js",
+    "json_stdio_parse": "cli/parse.js"
   },
   "dependencies": {
     "@oresoftware/json-stream-parser": "0.0.123",
