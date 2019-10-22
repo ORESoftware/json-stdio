@@ -5,6 +5,7 @@
 coverage
 .idea
 test
+.github
 scripts
 .vscode
 example
@@ -23,6 +24,7 @@ yarn.lock
 *.md
 *.json
 *.yml
+*.yaml
 *.txt
 Dockerfile*
 
