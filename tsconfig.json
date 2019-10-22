@@ -3,16 +3,17 @@
     "outDir": "dist",
     "skipLibCheck": true,
     "declaration": true,
+    "rootDir": "src",
     "baseUrl": ".",
-    "target": "es6",
+    "target": "es2018",
     "module": "commonjs",
     "noImplicitAny": true,
     "removeComments": true,
     "allowUnreachableCode": true,
     "strictNullChecks": false,
     "lib": [
-      "es2015",
-      "es2016",
+      "es2019",
+      "es2018",
       "es2017"
     ]
   },

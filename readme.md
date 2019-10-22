@@ -20,7 +20,7 @@
 
 ```js
 import stdio = require('json-stdio');    //   TypeScript
-import * as stdio from 'json-stdio';     //   ESNext / ESWhatever
+import * as stdio from 'json-stdio';     //   ESNext / ES-Whatever
 const stdio = require('json-stdio');     //   Old-Skool
 ```
 
