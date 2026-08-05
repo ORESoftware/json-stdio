@@ -22,7 +22,11 @@
   },
   "description": "Write JSON to stdout, encoded for parsing by other processes",
   "devDependencies": {
-    "@types/node": "^12.7.4"
+    "@types/node": "^12.7.4",
+    "typescript": "4.9.5"
+  },
+  "engines": {
+    "node": ">=18"
   },
   "gitHead": "982fbec2a2e1aafa0170ca2721eb590f294ffe11",
   "homepage": "https://github.com/ORESoftware/json-stdio#readme",
@@ -43,8 +47,10 @@
     "url": "git+https://github.com/ORESoftware/json-stdio.git"
   },
   "scripts": {
-    "test": "suman test",
-    "tsc": "tsc"
+    "build": "tsc -p tsconfig.json",
+    "test": "npm run build && node --test test/*.test.js",
+    "test:e2e": "npm test",
+    "tsc": "tsc -p tsconfig.json"
   },
   "main": "dist/main.js",
   "types": "dist/main.d.ts",

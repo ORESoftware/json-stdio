@@ -123,6 +123,7 @@ export interface Object2JSONOpts {
 export const transformObject2JSON = function (opts?: Object2JSONOpts) {
 
   const marker = opts && opts.marker || stdMarker;
+  assert(marker && typeof marker === 'string', 'opts.marker must be a non-empty string.');
 
   return new stream.Transform({
 
@@ -131,10 +132,10 @@ export const transformObject2JSON = function (opts?: Object2JSONOpts) {
     transform(chunk: any, encoding: string, cb: Function) {
 
       try {
-        this.push(getJSONCanonical(chunk) + '\n');
+        this.push(getJSONCanonical(chunk, marker) + '\n');
       }
       catch (err) {
-        /* noop */
+        return cb(err);
       }
 
       cb();
@@ -147,4 +148,3 @@ export const transformObject2JSON = function (opts?: Object2JSONOpts) {
   });
 
 };
-
